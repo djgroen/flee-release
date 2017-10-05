@@ -1,8 +1,13 @@
 # Flee
 
-Flee is an agent-based modelling toolkit which is purpose-built for simulating the movement of individuals across geographical locations. Flee is currently used primarily for modelling the movements of refugees and internally displaces persons (IDPs).
+Flee is an agent-based modelling toolkit which is purpose-built for simulating
+the movement of individuals across geographical locations. Flee is currently
+used primarily for modelling the movements of refugees and internally displaces
+persons (IDPs).
 
-Flee is currently closed-source, but will be released periodically under a BSD 3-clause license once the first journal paper is accepted.
+Flee is released under a BSD 3-clause license. The GitHub repository with the
+latest source can be found at http://www.github.com/djgroen/flee-release.
+
 
 ## Main source files
 
@@ -23,7 +28,6 @@ Flee consists of a range of testing scripts. These are:
 | test\_datatable.py   | Test data loading from CSV           |
 | test\_flee.py        | Test simple simulation of Mali       |
 | test\_removelink.py  | Test link removal                    |
-| test\_retrofit.py    | Test time retrofitting functionality |
 | test\_toy\_escape.py | Test toy escape scenario             |
 
 All tests can be run with Python 3, no arguments need to be specified.
@@ -36,6 +40,5 @@ All tests can be run with Python 3, no arguments need to be specified.
 | maliv2.py           | Mali simulation                      |
 | burundi.py          | Burundi simulation                   |
 | car.py              | CAR simulation                       |
-| iraq-idp.py         | Iraq simulation (IDPs only)          |
 
 
