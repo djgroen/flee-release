@@ -8,6 +8,12 @@ persons (IDPs).
 Flee is released under a BSD 3-clause license. The GitHub repository with the
 latest source can be found at http://www.github.com/djgroen/flee-release.
 
+## Simple Test for Flee
+
+Try a toy example of Flee using:
+
+python3 test_flee.py
+
 
 ## Main source files
 
