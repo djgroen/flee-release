@@ -8,6 +8,11 @@ persons (IDPs).
 Flee is released under a BSD 3-clause license. The GitHub repository with the
 latest source can be found at http://www.github.com/djgroen/flee-release.
 
+If you use Flee for your research publications, you can give us credit
+by citing our Scientific Reports paper: http://dx.doi.org/10.1038/s41598-017-13828-9.
+
+* Diana Suleimenova, David Bell, and Derek Groen. "A generalized simulation development approach for predicting refugee destinations.", Scientific Reports 7, Article number: 13377 (2017). 
+
 ## Simple Test for Flee
 
 Try a toy example of Flee using:
