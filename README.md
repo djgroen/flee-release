@@ -48,5 +48,5 @@ python3 plot-flee-output.py test-output
 ## Run a CAR simulation
 
 rm test-output/*
-python3 car-csv.py SimSettings.default.csv > test-output/out.csv
+python3 car-csv.py SimSettings/default.csv > test-output/out.csv
 python3 plot-flee-output.py test-output
