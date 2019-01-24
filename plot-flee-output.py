@@ -1,7 +1,8 @@
 import pandas as pd
+import matplotlib
+matplotlib.use('Pdf')
 import matplotlib.pyplot as plt
 import numpy as np
-import matplotlib
 import sys
 import datamanager.handle_refugee_data as handle_refugee_data
 import warnings
@@ -69,7 +70,7 @@ def set_margins(l=0.13,b=0.13,r=0.96,t=0.96):
   fig.subplots_adjust(bottom=b,top=t,left=l,right=r)
 
 
-def plotme(out_dir, data, name, retrofitted=True, offset=0, legend_loc=4, naieve_model=False):
+def plotme(out_dir, data, name, retrofitted=True, offset=0, legend_loc=4, naieve_model=True):
   """
   Advanced plotting function for validation of refugee registration numbers in camps.
   """
@@ -300,7 +301,7 @@ def plotme_minimal(out_dir, data, name):
 
   #Size of plots/graphs
   fig = matplotlib.pyplot.gcf()
-  fig.set_size_inches(8, 6)
+  fig.set_size_inches(7, 6)
   #adjust margins.
   set_margins(l=0.14,b=0.13,r=0.96,t=0.96)
 
@@ -313,22 +314,27 @@ def plotme_minimal(out_dir, data, name):
 if __name__ == "__main__":
 
   if len(sys.argv)>1:
-    out_dir = sys.argv[1]
+    in_dir = sys.argv[1]
+  else:
+    in_dir = "out"
+
+  if len(sys.argv)>2:
+    out_dir = sys.argv[2]
   else:
     out_dir = "out"
 
   RetroFitting = False
-  if len(sys.argv)>2:
-    if "-r" in sys.argv[2]:
+  if len(sys.argv)>3:
+    if "-r" in sys.argv[3]:
       RetroFitting = True
 
 
   matplotlib.style.use('ggplot')
   #figsize=(15, 10)
 
-  refugee_data = pd.read_csv("%s/out.csv" % (out_dir), sep=',', encoding='latin1',index_col='Day')
+  refugee_data = pd.read_csv("%s/out.csv" % (in_dir), sep=',', encoding='latin1',index_col='Day')
   if RetroFitting == True:
-    refugee_data = pd.read_csv("%s/out-retrofitted.csv" % (out_dir), sep=',', encoding='latin1',index_col='Day')
+    refugee_data = pd.read_csv("%s/out-retrofitted.csv" % (in_dir), sep=',', encoding='latin1',index_col='Day')
 
   #Identifying location names for graphs
   rd_cols = list(refugee_data.columns.values)
@@ -394,15 +400,16 @@ if __name__ == "__main__":
   # Also populated LocationErrors classes.
 
   loc_errors = []
+  nmodel = False
 
   for i in location_names:
 
     if not RetroFitting:
-      plotme(out_dir, refugee_data, i, retrofitted=RetroFitting, legend_loc=4)
+      loc_errors.append(plotme(out_dir, refugee_data, i, retrofitted=RetroFitting, legend_loc=4, naieve_model=nmodel))
       #plotme(out_dir, refugee_data, i, retrofitted=RetroFitting, legend_loc=1)
 
-      #plotme(out_dir, refugee_data, i, retrofitted=RetroFitting, legend_loc=4, naieve_model=False)
-      loc_errors.append(plotme(out_dir, refugee_data, i, retrofitted=RetroFitting, legend_loc=4, naieve_model=True))
+      plotme(out_dir, refugee_data, i, retrofitted=RetroFitting, legend_loc=4, naieve_model=nmodel)
+      #loc_errors.append(plotme(out_dir, refugee_data, i, retrofitted=RetroFitting, legend_loc=4, naieve_model=True))
 
     else:
       loc_errors.append(plotme(out_dir, refugee_data, i, retrofitted=RetroFitting, legend_loc=4))
@@ -430,8 +437,8 @@ if __name__ == "__main__":
 
 
   sim_errors = SimulationErrors(loc_errors)
-
-  print("%s & %s & %s & %s & %s & %s & %s\\\\" % (out_dir, sim_errors.get_error("MASE7"), sim_errors.get_error("MASE7-sloped"),sim_errors.get_error("MASE7-ratio"),sim_errors.get_error("MASE30"),sim_errors.get_error("MASE30-sloped"),sim_errors.get_error("MASE30-ratio")))
+  if nmodel:
+    print("%s & %s & %s & %s & %s & %s & %s\\\\" % (out_dir, sim_errors.get_error("MASE7"), sim_errors.get_error("MASE7-sloped"),sim_errors.get_error("MASE7-ratio"),sim_errors.get_error("MASE30"),sim_errors.get_error("MASE30-sloped"),sim_errors.get_error("MASE30-ratio")))
 
   matplotlib.rcParams.update({'font.size': 20})
 

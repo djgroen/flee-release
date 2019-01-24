@@ -10,6 +10,9 @@ Generation 1 code. Incorporates only distance, travel always takes one day.
 if __name__ == "__main__":
   print("Testing basic data handling and simulation kernel.")
 
+  flee.SimulationSettings.SimulationSettings.MinMoveSpeed=5000.0
+  flee.SimulationSettings.SimulationSettings.MaxMoveSpeed=5000.0
+
   end_time = 10
   e = flee.Ecosystem()
 

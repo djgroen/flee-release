@@ -242,7 +242,7 @@ if __name__ == "__main__":
   #analyze_graph.print_graph_nx(vertices, edges, print_dist=True)
   #sys.exit()
 
-  d = handle_refugee_data.RefugeeTable(csvformat="generic", data_directory="source_data/car2014/", start_date="2013-12-01")
+  d = handle_refugee_data.RefugeeTable(csvformat="generic", data_directory="source_data/car2014/", start_date="2013-12-01", data_layout="data_layout.csv")
 
   #Correcting for overestimations due to inaccurate level 1 registrations in five of the camps.
   #These errors led to a perceived large drop in refugee population in all of these camps.
@@ -354,8 +354,8 @@ if __name__ == "__main__":
 
 
     # Determine number of new refugees to insert into the system.
-    new_refs = d.get_daily_difference(t, FullInterpolation=True, ZeroOnDayZero=False) - refugee_debt
-    refugees_raw += d.get_daily_difference(t, FullInterpolation=True, ZeroOnDayZero=False)
+    new_refs = d.get_daily_difference(t, FullInterpolation=True) - refugee_debt
+    refugees_raw += d.get_daily_difference(t, FullInterpolation=True)
     if new_refs < 0:
       refugee_debt = -new_refs
       new_refs = 0

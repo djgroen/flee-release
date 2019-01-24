@@ -1,0 +1,13 @@
+#"name","region","country","lat","lon","location_type","conflict_date","population"
+"A","AB","ABC",1.0,1.0,"conflict_zone",0,100000
+"B","AB","ABC",1.0,1.0,"conflict_zone",10,500000
+"C","C","ABC",1.0,1.0,"town",0,100000
+"D","D","DEF",1.0,1.0,"town",0,100000
+"SE","C","ABC",1.0,1.0,"town",0,10000
+"NW","AB","ABC",1.0,1.0,"town",0,10000
+"NE","D","DEF",1.0,1.0,"town",0,10000
+"SW","EF","DEF",1.0,1.0,"town",0,10000
+"N","D","DEF",1.0,1.0,"camp",,0
+"E","EF","DEF",1.0,1.0,"camp",,0
+"S","EF","DEF",1.0,1.0,"camp",,0
+"W","EF","DEF",1.0,1.0,"camp",,0

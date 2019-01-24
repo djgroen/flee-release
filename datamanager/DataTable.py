@@ -13,7 +13,7 @@ def subtract_dates(date1, date2):
   b = datetime.strptime(date2, date_format)
   delta = a - b
   #print(date1,"-",date2,"=",delta.days)
-  return delta.days 
+  return delta.days
 
 def steps_to_date(steps, start_date):
   date_format = "%Y-%m-%d"
@@ -46,12 +46,12 @@ def _processEntry(row, table, data_type, date_column, count_column, start_date):
 
   return table
 
-def AddCSVTables(table1, table2): 
-  """  
+def AddCSVTables(table1, table2):
+  """
   Add two time series tables. This version does not yet support interpolation between values.
   (The UNHCR data website also does not do this, by the way)
   """
-  
+
   table = np.zeros([0,2])
 
   offset = 0
@@ -98,11 +98,11 @@ def ConvertCsvFileToNumPyTable(csv_name, data_type="int", date_column=0, count_c
   with open(csv_name, newline='') as csvfile:
     values = csv.reader(csvfile)
 
-    row = next(values)  
-    
-    if(len(row)>1): 
+    row = next(values)
+
+    if(len(row)>1):
       if len(row[0])>0 and "DateTime" not in row[0]:
-        table = _processEntry(row, table, data_type, date_column, count_column, start_date) 
+        table = _processEntry(row, table, data_type, date_column, count_column, start_date)
 
     for row in values:
       table = _processEntry(row, table, data_type, date_column, count_column, start_date)
@@ -150,19 +150,19 @@ class DataTable:
     """
     self.override_refugee_input_file = data_file_name
     self.override_refugee_input = True
-  
+
     self.header.append("total (modified input)")
     self.data_table.append(ConvertCsvFileToNumPyTable("%s" % (data_file_name), start_date=self.start_date))
 
 
-  def get_daily_difference(self, day, day_column=0, count_column=1, Debug=False, FullInterpolation=True, ZeroOnDayZero=False):
+  def get_daily_difference(self, day, day_column=0, count_column=1, Debug=False, FullInterpolation=True):
     """
     Extrapolate count of new refugees at a given time point, based on input data.
     count_column = column which contains the relevant difference.
     FullInterpolation: when disabled, the function ignores any decreases in refugee count.
     when enabled, the function can return negative numbers when the new total is higher than the older one.
     """
-    
+
     self.total_refugee_column = count_column
     self.days_column = day_column
     ref_table = self.data_table[0]
@@ -172,17 +172,14 @@ class DataTable:
 
     # Refugees only come in *after* day 0.
     if int(day) == 0:
-      if ZeroOnDayZero:
-        return 0
-      else:
-        ref_table = self.data_table[0]
+      ref_table = self.data_table[0]
 
-        new_refugees = 0
-        for i in self.header[1:]:
-          new_refugees += self.get_field(i, 0, FullInterpolation)
-          #print("Day 0 data:",i,self.get_field(i, 0, FullInterpolation))
+      new_refugees = 0
+      for i in self.header[1:]:
+        new_refugees += self.get_field(i, 0, FullInterpolation)
+        #print("Day 0 data:",i,self.get_field(i, 0, FullInterpolation))
 
-        return int(new_refugees)
+      return int(new_refugees)
 
     else:
 

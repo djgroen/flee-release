@@ -31,7 +31,7 @@ def print_graph_nx(vertices, edges, print_dist=False):
   print("Edges of graph: ")
   print(G.edges())
 
-  nx.draw(G, with_labels=True)
+  nx.draw(G, with_labels=True, node_color='y')
   #nx.draw_networkx_edge_labels(G,labels)
   plt.savefig("simulation_graph.png") # save as png
   plt.show()

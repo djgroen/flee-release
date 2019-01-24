@@ -11,9 +11,9 @@ class RefugeeTable(DataTable.DataTable):
     are found in the data. It then returns this time, which can be fractional.
     refugee_count: number of refugees in camps in the simulation, and the value we seek to match time against.
     camp_names: list of names (strings) of the refugee camp locations.
-    TODO: make camp_names list auto-detectable in the simulation. 
+    TODO: make camp_names list auto-detectable in the simulation.
 
-    LIMITATION: This approach assumes a continual increase in refugee populations. Long-term decreasing trends 
+    LIMITATION: This approach assumes a continual increase in refugee populations. Long-term decreasing trends
     in the data will cause the function to return garbage.
     """
 
@@ -49,23 +49,23 @@ class RefugeeTable(DataTable.DataTable):
           return last_t + t_frac * (t - last_t)
 
       if int(data_count) >= int(last_data_count):
-        # Only when the current refugee count in the data exceeds the highest one found previously, 
+        # Only when the current refugee count in the data exceeds the highest one found previously,
         # will we make a new interpolation checkpoint.
         last_data_count = data_count
         last_t = t
 
-    
+
     print("Retrofit output:", refugee_count, last_time_in_data, last_data_count, initial_data_count, data_count)
     sys.exit()
     return last_time_in_data
 
 
   def get_new_refugees(self, day, Debug=False, FullInterpolation=True):
-    """ 
+    """
     This function is in place to provide an intuitive naming convention, and to retain backwards compatibility.
     See the corresponding function in DataTable.py for exact details on how to use it.
     """
-    return self.get_daily_difference(day, day_column=0, count_column=1, Debug=Debug, FullInterpolation=FullInterpolation, ZeroOnDayZero=False)
+    return self.get_daily_difference(day, day_column=0, count_column=1, Debug=Debug, FullInterpolation=FullInterpolation)
 
   def correctLevel1Registrations(self, name, date):
     """
@@ -75,7 +75,7 @@ class RefugeeTable(DataTable.DataTable):
     hindex = self._find_headerindex(name)
     days = DataTable.subtract_dates(date, self.start_date)
     ref_table = self.data_table[hindex]
-    
+
     for i in range(0, len(ref_table)):
       if(int(ref_table[i][0]) == int(days)):
         # then scale all previous entries by ref_table[i][1]/ref_table[i-1][1]
@@ -108,4 +108,4 @@ class RefugeeTable(DataTable.DataTable):
         max_val = int(ref_table[i][1])
 
     return max_val
-    
+

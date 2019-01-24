@@ -41,8 +41,9 @@ def calculate_MASE(forecast_vals, actual_vals, naieve_vals, start_of_forecast_pe
 
   offset = start_of_forecast_period + 1
 
-  mean_naieve_error = np.mean((np.abs(actual_vals[offset:] - naieve_vals[offset:])) / float(len(actual_vals[offset:])))
-  mean_forecast_error = np.mean((np.abs(actual_vals[start_of_forecast_period:] - forecast_vals[start_of_forecast_period:])) / float(len(actual_vals[start_of_forecast_period:])))
+  mean_naieve_error = np.sum((np.abs(actual_vals[offset:] - naieve_vals[offset:]))) / float(len(actual_vals[offset:]))
+  #mean_forecast_error = np.mean((np.abs(actual_vals[start_of_forecast_period:] - forecast_vals[start_of_forecast_period:])) / float(len(actual_vals[start_of_forecast_period:])))
+  mean_forecast_error = np.sum((np.abs(actual_vals - forecast_vals))) / float(len(actual_vals))
 
   return mean_forecast_error / mean_naieve_error
 

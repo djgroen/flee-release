@@ -21,6 +21,8 @@ class SimulationSettings:
   CampMoveChance = 0.001
   DefaultMoveChance = 0.3
 
+  #NumProcs = 1 #This is not supported at the moment.
+
 
   AwarenessLevel = 1 #-1, no weighting at all, 0 = road only, 1 = location, 2 = neighbours, 3 = region.
   UseDynamicAwareness = False # Refugees become smarter over time.

@@ -1,24 +1,8 @@
 # Flee
 
-Flee is an agent-based modelling toolkit which is purpose-built for simulating
-the movement of individuals across geographical locations. Flee is currently
-used primarily for modelling the movements of refugees and internally displaces
-persons (IDPs).
+Flee is an agent-based modelling toolkit which is purpose-built for simulating the movement of individuals across geographical locations. Flee is currently used primarily for modelling the movements of refugees and internally displaces persons (IDPs).
 
-Flee is released under a BSD 3-clause license. The GitHub repository with the
-latest source can be found at http://www.github.com/djgroen/flee-release.
-
-If you use Flee for your research publications, you can give us credit
-by citing our Scientific Reports paper: http://dx.doi.org/10.1038/s41598-017-13828-9.
-
-* Diana Suleimenova, David Bell, and Derek Groen. "A generalized simulation development approach for predicting refugee destinations.", Scientific Reports 7, Article number: 13377 (2017). 
-
-## Simple Test for Flee
-
-Try a toy example of Flee using:
-
-python3 test_flee.py
-
+Flee is currently closed-source, but will be released periodically under a BSD 3-clause license once the first journal paper is accepted.
 
 ## Main source files
 
@@ -32,14 +16,15 @@ python3 test_flee.py
 
 ## Testing Flee
 
-Flee consists of a range of testing scripts. These are:
+Flee consists of a range of testing scripts. These include, but are not limited to:
 
 | script name          | what it does                         |
 | -------------------- | ------------------------------------:| 
 | test\_datatable.py   | Test data loading from CSV           |
-| test\_flee.py        | Test simple simulation of Mali       |
 | test\_removelink.py  | Test link removal                    |
+| test\_retrofit.py    | Test time retrofitting functionality |
 | test\_toy\_escape.py | Test toy escape scenario             |
+| test\_close\_location.py | Test closing and opening of locations  |
 
 All tests can be run with Python 3, no arguments need to be specified.
 
@@ -51,5 +36,17 @@ All tests can be run with Python 3, no arguments need to be specified.
 | maliv2.py           | Mali simulation                      |
 | burundi.py          | Burundi simulation                   |
 | car.py              | CAR simulation                       |
+| ssudan-csv.py       | South Sudan simulation               |
+| iraq-idp.py         | Iraq simulation (IDPs only)          |
 
+## Perform a simple test
 
+rm test-output/*
+python3 test_csv.py > test-output/out.csv
+python3 plot-flee-output.py test-output
+
+## Run a CAR simulation
+
+rm test-output/*
+python3 car-csv.py > test-output/out.csv
+python3 plot-flee-output.py test-output

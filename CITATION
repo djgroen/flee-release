@@ -1,0 +1,16 @@
+At this time, when using FLEE as part of a publication, please cite the first journal publication that presented the FLEE code.
+
+BibTex:
+@article{suleimenova2017generalized,
+  title={A generalized simulation development approach for predicting refugee destinations},
+  author={Suleimenova, Diana and Bell, David and Groen, Derek},
+  journal={Scientific reports},
+  volume={7},
+  number={1},
+  pages={13377},
+  year={2017},
+  publisher={Nature Publishing Group}
+}
+
+Plain Text (Harvard style):
+Suleimenova, D., Bell, D. and Groen, D., 2017. A generalized simulation development approach for predicting refugee destinations. Scientific reports, 7(1), p.13377.

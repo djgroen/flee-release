@@ -5,16 +5,16 @@ This document provides formats of csv files for loading initial graph. Each conf
     |name| region| country| lat| lon| location_type| conflict_date| pop/cap              |
     |----|-------|--------|----|----|--------------|--------------|----------------------|
     |    |       |        |    |    | -conflict    |              |-population for cities|
-    |    |       |        |    |    | -town        |              |-population for cities|
+    |    |       |        |    |    | -town        |              |                      |
     |    |       |        |    |    | -camp        |              |-capacities for camps |
  
  conflict_data is given as an integer, counting the number of days after the simulation start. The value of -1 indicates the end of the simulation, while 0 indicates the start.
 
  ## 2. routes.csv
 
-    |name1| name2| distance|
-    |-----|------|---------|
-    |     |      |         |
+    |name1| name2| distance|forced_redirection|
+    |-----|------|---------|------------------|
+    |     |      |         |                  |
 
 
  ## 3. closures.csv  (Border closure events at country or location levels)
