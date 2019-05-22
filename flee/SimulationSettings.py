@@ -21,6 +21,8 @@ class SimulationSettings:
   CampMoveChance = 0.001
   DefaultMoveChance = 0.3
 
+  FlareConflictInputFile = ""
+
   #NumProcs = 1 #This is not supported at the moment.
 
 
@@ -64,6 +66,8 @@ class SimulationSettings:
           SimulationSettings.DefaultMoveChance = float(row[1])
         elif row[0] == "AwarenessLevel":
           SimulationSettings.AwarenessLevel = int(row[1])
+        elif row[0] == "FlareConflictInputFile":
+          SimulationSettings.FlareConflictInputFile = row[1]
         else:
           print("FLEE Initialization Error: unrecognized simulation parameter:",row[0])
           sys.exit()
