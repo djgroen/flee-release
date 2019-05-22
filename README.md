@@ -48,5 +48,9 @@ python3 plot-flee-output.py test-output
 ## Run a CAR simulation
 
 rm test-output/*
-python3 car-csv.py > test-output/out.csv
+python3 car-csv.py SimSettings/default.csv > test-output/out.csv
 python3 plot-flee-output.py test-output
+
+## Run a parallel test simulation
+
+mpirun -np <number of cores> test_par.py
