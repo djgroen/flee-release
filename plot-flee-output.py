@@ -70,7 +70,7 @@ def set_margins(l=0.13,b=0.13,r=0.96,t=0.96):
   fig.subplots_adjust(bottom=b,top=t,left=l,right=r)
 
 
-def plotme(out_dir, data, name, retrofitted=True, offset=0, legend_loc=4, naieve_model=True):
+def plotme(out_dir, data, name, offset=0, legend_loc=4, naieve_model=True):
   """
   Advanced plotting function for validation of refugee registration numbers in camps.
   """
@@ -85,26 +85,19 @@ def plotme(out_dir, data, name, retrofitted=True, offset=0, legend_loc=4, naieve
   naieve_early_day = 7
   naieve_training_day = 30
 
-  #print(name, retrofitted, offset, len(y1), len(y2))
+  #print(name, offset, len(y1), len(y2))
   plt.xlabel("Days elapsed")
 
   matplotlib.rcParams.update({'font.size': 20})
 
   #Plotting lines representing simulation results.
-  if retrofitted==False:
-    if offset == 0:
+  if offset == 0:
       labelsim, = plt.plot(days,y1, linewidth=8, label="%s simulation" % (name.title()))
-    if offset > 0:
+  if offset > 0:
       labelsim, = plt.plot(days[:-offset],y1[offset:], linewidth=8, label="%s simulation" % (name.title()))
-  else:
-    retrofitted_times = refugee_data.loc[:,["retrofitted time"]].as_matrix()
-    labelsim, = plt.plot(retrofitted_times, y1, linewidth=8, label="%s simulation" % (name.title()))
 
   # Plotting line representing UNHCR data.
   labeldata, = plt.plot(days,y2, 'o-', linewidth=8, label="%s UNHCR data" % (name.title()))
-
-  if retrofitted==True:
-    plt.xlim(0,retrofitted_times[-1])
 
   # Add label for the naieve model if it is enabled.
   plt.legend(handles=[labelsim, labeldata],loc=legend_loc,prop={'size':18})
@@ -114,37 +107,33 @@ def plotme(out_dir, data, name, retrofitted=True, offset=0, legend_loc=4, naieve
   #adjust margins
   set_margins()
 
-  if retrofitted==False:
-    if offset == 0:
+  if offset == 0:
       fig.savefig("%s/%s-%s.png" % (out_dir, name, legend_loc))
-    else:
-      fig.savefig("%s/%s-offset-%s.png" % (out_dir, name, offset))
   else:
-    fig.savefig("%s/%s-retrofitted.png" % (out_dir, name))
+      fig.savefig("%s/%s-offset-%s.png" % (out_dir, name, offset))
 
   # Rescaled values
-  if retrofitted==False:
-    plt.clf()
+  plt.clf()
 
-    plt.xlabel("Days elapsed")
-    plt.ylabel("Number of refugees")
+  plt.xlabel("Days elapsed")
+  plt.ylabel("Number of refugees")
 
-    simtot = data["refugees in camps (simulation)"].as_matrix().flatten()
-    untot = data["refugees in camps (UNHCR)"].as_matrix().flatten()
+  simtot = data["refugees in camps (simulation)"].as_matrix().flatten()
+  untot = data["refugees in camps (UNHCR)"].as_matrix().flatten()
 
-    y1_rescaled = np.zeros(len(y1))
-    for i in range(0, len(y1_rescaled)):
+  y1_rescaled = np.zeros(len(y1))
+  for i in range(0, len(y1_rescaled)):
       # Only rescale if simtot > 0
       if simtot[i] > 0:
-        y1_rescaled[i] = y1[i] * untot[i] / simtot[i]
+          y1_rescaled[i] = y1[i] * untot[i] / simtot[i]
 
 
-    labelsim, = plt.plot(days,y1_rescaled, linewidth=8, label="%s simulation" % (name.title()))
+  labelsim, = plt.plot(days,y1_rescaled, linewidth=8, label="%s simulation" % (name.title()))
 
-    labeldata, = plt.plot(days,y2, linewidth=8, label="%s UNHCR data" % (name.title()))
+  labeldata, = plt.plot(days,y2, linewidth=8, label="%s UNHCR data" % (name.title()))
 
-    # Plotting line representing naieve model
-    if naieve_model:
+  # Plotting line representing naieve model
+  if naieve_model:
       # Flat line from day 7
       n1 = np.empty(len(days))
       n1.fill(y2[naieve_early_day])
@@ -182,20 +171,20 @@ def plotme(out_dir, data, name, retrofitted=True, offset=0, legend_loc=4, naieve
       plt.axvline(x=naieve_training_day, linewidth=2, ls="dotted", c="grey")
 
 
-    if naieve_model:
+  if naieve_model:
       plt.legend(handles=[labelsim, labelnaieve, labeldata],loc=legend_loc,prop={'size':18})
-    else:
+  else:
       plt.legend(handles=[labelsim, labeldata],loc=legend_loc,prop={'size':18})
 
-    fig = matplotlib.pyplot.gcf()
-    fig.set_size_inches(12, 8)
-    #adjust margins
-    set_margins()
+  fig = matplotlib.pyplot.gcf()
+  fig.set_size_inches(12, 8)
+  #adjust margins
+  set_margins()
 
-    if naieve_model:
-      fig.savefig("%s/%s-%s-rescaled-N.png" % (out_dir, name, legend_loc))
-    else:
-      fig.savefig("%s/%s-%s-rescaled.png" % (out_dir, name, legend_loc))
+  if naieve_model:
+    fig.savefig("%s/%s-%s-rescaled-N.png" % (out_dir, name, legend_loc))
+  else:
+    fig.savefig("%s/%s-%s-rescaled.png" % (out_dir, name, legend_loc))
 
 
   """
@@ -216,6 +205,7 @@ def plotme(out_dir, data, name, retrofitted=True, offset=0, legend_loc=4, naieve
 
   # absolute difference (rescaled)
   lerr.errors["absolute difference rescaled"] = a.abs_diffs(y1_rescaled, y2)
+  
 
   # ratio difference
   lerr.errors["ratio difference"] = a.abs_diffs(y1, y2) / (np.maximum(untot, np.ones(len(untot))))
@@ -323,18 +313,10 @@ if __name__ == "__main__":
   else:
     out_dir = "out"
 
-  RetroFitting = False
-  if len(sys.argv)>3:
-    if "-r" in sys.argv[3]:
-      RetroFitting = True
-
-
   matplotlib.style.use('ggplot')
   #figsize=(15, 10)
 
   refugee_data = pd.read_csv("%s/out.csv" % (in_dir), sep=',', encoding='latin1',index_col='Day')
-  if RetroFitting == True:
-    refugee_data = pd.read_csv("%s/out-retrofitted.csv" % (in_dir), sep=',', encoding='latin1',index_col='Day')
 
   #Identifying location names for graphs
   rd_cols = list(refugee_data.columns.values)
@@ -375,11 +357,10 @@ if __name__ == "__main__":
   """
   offset = 0
 
-  if RetroFitting == False:
-    min_error = 1000000
-    error_at_zero_offset = 0
+  min_error = 1000000
+  error_at_zero_offset = 0
 
-    for i in range(0,200):
+  for i in range(0,200):
       compare_len = len(sim_refs[i:])
       error = np.mean(np.abs(sim_refs[i:] - raw_refs[:compare_len]))
 
@@ -391,7 +372,7 @@ if __name__ == "__main__":
         min_error = error
         offset = i
 
-    print(out_dir, ": The best offset = ", offset, ", error = ", min_error, ", error at offset 0 = ",error_at_zero_offset)
+  print(out_dir, ": The best offset = ", offset, ", error = ", min_error, ", error at offset 0 = ",error_at_zero_offset)
   """
 
   PlotOffsets = True
@@ -403,40 +384,14 @@ if __name__ == "__main__":
   nmodel = False
 
   for i in location_names:
+      loc_errors.append(plotme(out_dir, refugee_data, i, legend_loc=4, naieve_model=nmodel))
+      #plotme(out_dir, refugee_data, i, legend_loc=1)
 
-    if not RetroFitting:
-      loc_errors.append(plotme(out_dir, refugee_data, i, retrofitted=RetroFitting, legend_loc=4, naieve_model=nmodel))
-      #plotme(out_dir, refugee_data, i, retrofitted=RetroFitting, legend_loc=1)
-
-      plotme(out_dir, refugee_data, i, retrofitted=RetroFitting, legend_loc=4, naieve_model=nmodel)
-      #loc_errors.append(plotme(out_dir, refugee_data, i, retrofitted=RetroFitting, legend_loc=4, naieve_model=True))
-
-    else:
-      loc_errors.append(plotme(out_dir, refugee_data, i, retrofitted=RetroFitting, legend_loc=4))
-
-
-  if not RetroFitting and PlotOffsets==True:
-
-    """for offset in [7,14,30]:
-
-      loc_errors_offset = []
-      for i in location_names:
-        loc_errors_offset.append(plotme(out_dir, refugee_data, i, retrofitted=RetroFitting, offset=offset))
-
-
-      sim_errors_offset = SimulationErrors(loc_errors_offset)
-      #print(offset, i, len(sim_errors_offset.location_errors[-1].errors["absolute difference"]), len(sim_errors_offset.abs_diff(rescaled=False)))
-
-      diffdata = sim_errors_offset.abs_diff(rescaled=False) / np.maximum(un_refs[:-offset], np.ones(len(un_refs[:-offset])))
-      diffdata_rescaled = sim_errors_offset.abs_diff() / np.maximum(un_refs[:-offset], np.ones(len(un_refs[:-offset])))
-
-      print(offset, out_dir,": Averaged error : ", np.mean(diffdata), ", rescaled: ", np.mean(diffdata_rescaled),", len: ", len(diffdata))
-    """
-    #plotme_minimal(out_dir, refugee_data,i)
-
-
+      #plotme(out_dir, refugee_data, i, legend_loc=4, naieve_model=nmodel)
+      #loc_errors.append(plotme(out_dir, refugee_data, i, legend_loc=4, naieve_model=True))
 
   sim_errors = SimulationErrors(loc_errors)
+  #print(sim_errors.abs_diff())
   if nmodel:
     print("%s & %s & %s & %s & %s & %s & %s\\\\" % (out_dir, sim_errors.get_error("MASE7"), sim_errors.get_error("MASE7-sloped"),sim_errors.get_error("MASE7-ratio"),sim_errors.get_error("MASE30"),sim_errors.get_error("MASE30-sloped"),sim_errors.get_error("MASE30-ratio")))
 
@@ -454,99 +409,24 @@ if __name__ == "__main__":
   plt.ylabel("Averaged relative difference")
   plt.xlabel("Days elapsed")
 
-  if RetroFitting==False:
+  diffdata = sim_errors.abs_diff(rescaled=False) / np.maximum(un_refs, np.ones(len(un_refs)))
+  diffdata_rescaled = sim_errors.abs_diff() / np.maximum(un_refs, np.ones(len(un_refs)))
+  print(out_dir,": Averaged error normal: ", np.mean(diffdata), ", rescaled: ", np.mean(diffdata_rescaled),", len: ", len(diffdata))
 
-    diffdata = sim_errors.abs_diff(rescaled=False) / np.maximum(un_refs, np.ones(len(un_refs)))
-    diffdata_rescaled = sim_errors.abs_diff() / np.maximum(un_refs, np.ones(len(un_refs)))
-    print(out_dir,": Averaged error normal: ", np.mean(diffdata), ", rescaled: ", np.mean(diffdata_rescaled),", len: ", len(diffdata))
+  #labeldiff, = plt.plot(np.arange(len(diffdata)), diffdata, linewidth=5, label="error (not rescaled)")
+  labeldiff2, = plt.plot(np.arange(len(diffdata_rescaled)), diffdata_rescaled, linewidth=5, label="error")
+  #labeldiff2, = plt.plot(np.arange(len(diffdata)), ref_mismatch_error, linewidth=5, label="total refugee difference")
 
-    #labeldiff, = plt.plot(np.arange(len(diffdata)), diffdata, linewidth=5, label="error (not rescaled)")
-    labeldiff2, = plt.plot(np.arange(len(diffdata_rescaled)), diffdata_rescaled, linewidth=5, label="error")
-    #labeldiff2, = plt.plot(np.arange(len(diffdata)), ref_mismatch_error, linewidth=5, label="total refugee difference")
+  plt.legend(handles=[labeldiff2],loc=1,prop={'size':14})
 
-    plt.legend(handles=[labeldiff2],loc=1,prop={'size':14})
+  set_margins()
+  plt.savefig("%s/error.png" % out_dir)
 
-    set_margins()
-    plt.savefig("%s/error.png" % out_dir)
+  labeldiff, = plt.plot(np.arange(len(diffdata)), diffdata, linewidth=5, label="error (not rescaled)")
+  plt.legend(handles=[labeldiff, labeldiff2],loc=1,prop={'size':14})
 
-    labeldiff, = plt.plot(np.arange(len(diffdata)), diffdata, linewidth=5, label="error (not rescaled)")
-    plt.legend(handles=[labeldiff, labeldiff2],loc=1,prop={'size':14})
-
-    set_margins()
-    plt.savefig("%s/error-comparison.png" % out_dir)
-
-
-  # Plot error using retrofitting if applicable.
-  if RetroFitting==True and "Total error (retrofitted)" in refugee_data.columns:
-    offset = 0
-    retrofitted_times = (refugee_data.loc[:,["retrofitted time"]].as_matrix()).flatten()
-    for i in range(0,len(retrofitted_times)):
-      if retrofitted_times[i] > 0.1:
-        continue
-      offset += 1
-
-    diffdata_retro = (refugee_data.loc[:,["Total error (retrofitted)"]].as_matrix()).flatten()
-    print(out_dir,": Averaged error (retrofitted): ", np.trapz((diffdata_retro[offset:]**2.0), retrofitted_times[offset:]) / retrofitted_times[-1], ", end time: ", retrofitted_times[-1])
-    plt.plot(retrofitted_times[offset:], diffdata_retro[offset:], linewidth=5, label="error (retrofitted)")
-
-    set_margins()
-    plt.savefig("%s/error-retrofitted.png" % out_dir)
-
-    plt.clf()
-
-    refugee_data_normal_time = pd.read_csv("%s/out.csv" % (out_dir), sep=',', encoding='latin1',index_col='Day')
-    diffdata = (refugee_data_normal_time.loc[:,["Total error"]].as_matrix()).flatten()
-    plt.plot(np.arange(len(diffdata)), diffdata, linewidth=5, label="error")
-    plt.plot(retrofitted_times[offset:], diffdata_retro[offset:], linewidth=5, label="error (retrofitted)")
-    #plt.legend(handles=[labeldiff],loc=2,prop={'size':14})
-
-    set_margins()
-    plt.legend()
-    plt.savefig("%s/error-both.png" % out_dir)
+  set_margins()
+  plt.savefig("%s/error-comparison.png" % out_dir)
 
   plt.clf()
-
-
-
-  if RetroFitting==True and "retrofitted time" in refugee_data.columns:
-    plt.clf()
-    fit_time_data = refugee_data.loc[:,["retrofitted time"]].as_matrix()
-    plt.plot(np.arange(len(fit_time_data)), fit_time_data, linewidth=5)
-    plt.plot(np.arange(len(fit_time_data)), np.arange(len(fit_time_data)), linewidth=3)
-    #Size of plots/figures
-
-    fig = matplotlib.pyplot.gcf()
-    fig.set_size_inches(12, 8)
-
-    plt.xlabel("Steps taken in simulation")
-    plt.ylabel("Days passed when mapped to UNHCR data")
-
-    set_margins()
-    plt.savefig("%s/time_evolution.png" % out_dir)
-
-
-    # Sim and data comparison.
-    plt.clf()
-
-    sim_refs = refugee_data.loc[:,["refugees in camps (simulation)"]].as_matrix()
-    un_refs = refugee_data.loc[:,["refugees in camps (UNHCR)"]].as_matrix()
-
-    plt.clf()
-    fit_time_data = refugee_data.loc[:,["retrofitted time"]].as_matrix()
-    plt.plot(fit_time_data, sim_refs, linewidth=8, label="# in camps (sim, retrofitted)")
-    plt.plot(range(0,len(sim_refs)), sim_refs, linewidth=5, label="# in camps (sim)")
-    plt.plot(range(0,len(un_refs)), un_refs, linewidth=3, label="# in camps (data)")
-    #Size of plots/figures
-
-    fig = matplotlib.pyplot.gcf()
-    fig.set_size_inches(12, 8)
-
-    plt.ylabel("Number of refugees in camps")
-    plt.xlabel("Simulated (or measured) days")
-
-    plt.legend(loc=4)
-
-
-    set_margins()
-    plt.savefig("%s/numagents_retrofitted.png" % out_dir)
 
