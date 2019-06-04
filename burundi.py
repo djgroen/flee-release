@@ -32,12 +32,6 @@ if __name__ == "__main__":
     end_time = 396
     last_physical_day = 396
 
-  RetroFitting = False
-  if len(sys.argv)>2:
-    if "-r" in sys.argv[2]:
-      RetroFitting = True
-      end_time *= 10
-
   e = flee.Ecosystem()
 
   locations = []
@@ -171,12 +165,7 @@ if __name__ == "__main__":
 
   for t in range(0,end_time):
 
-    if RetroFitting==False:
-      t_data = t
-    else:
-      t_data = int(t_retrofitted)
-      if t_data > end_time / 10:
-        break
+    t_data = t
 
     #Lusenda camp open on the 30th of July 2015
     if t_data == date_to_sim_days("2015-07-30"): #Open Lusenda
