@@ -56,12 +56,6 @@ if __name__ == "__main__":
     end_time = 300
     last_physical_day = 300
 
-  RetroFitting = False
-  if len(sys.argv)>2:
-    if "-r" in sys.argv[2]:
-      RetroFitting = True
-      end_time *= 10
-
   e = flee.Ecosystem()
 
   # Refugees reduce population counts.
@@ -214,12 +208,7 @@ if __name__ == "__main__":
 
     e.refresh_conflict_weights()
 
-    if RetroFitting==False:
-      t_data = t
-    else:
-      t_data = int(t_retrofitted)
-      if t_data > end_time / 10:
-        break
+    t_data = t
 
     # Close/open borders here.
     if t_data == date_to_sim_days("2012-03-19"): #On the 19th of March, Fassala closes altogether, and instead functions as a forward to Mbera (see PDF report 1 and 2).
