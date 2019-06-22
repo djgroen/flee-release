@@ -11,7 +11,7 @@ python3 test_csv.py
 ### CSV-based simulation kernel, with test data
 To run the CSV-based simulation kernel, using the test data, please use:
 ```
-python3 run_csv_vanilla.py test_data/test_input_csv test_data/test_input_csv/refugee_data 5 2>/dev/null
+python3 run_csv_vanilla.py test_data/test_input_csv test_data/test_input_csv/refugee_data 5 2010-01-01 2>/dev/null
 ```
 Here the "2>/dev/null" ensures that any diagnostics are not displayed on the screen. Instead, pure CSV output for the toy model should appear on the screen if this works correctly.
 
