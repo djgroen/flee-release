@@ -221,8 +221,8 @@ class Ecosystem(flee.Ecosystem):
     return len(self.agents)
 
   def evolve(self):
-    if self.time == 0:
-        print("rank, num_agents:", self.mpi.rank, len(self.agents))
+    # if self.time == 0:
+        # print("rank, num_agents:", self.mpi.rank, len(self.agents))
 
     # update level 1, 2 and 3 location scores
     for l in self.locations:
