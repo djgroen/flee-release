@@ -225,7 +225,7 @@ class DataTable:
         return int(old_val + fraction * float(ref_table[i,self.total_refugee_column] - old_val))
 
     #print("# warning: ref_table length exceeded for column: ",day, self.header[column], ", last ref_table values: ", ref_table[i-1][self.total_refugee_column], ref_table[i][self.days_column])
-    return ref_table[-1,self.total_refugee_column]
+    return int(ref_table[-1,self.total_refugee_column])
 
   def get_raw_data(self, column, day):
     """

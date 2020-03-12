@@ -82,8 +82,7 @@ if __name__ == "__main__":
       refugee_debt = 0
 
     #Insert refugee agents
-    for i in range(0, new_refs):
-      e.addAgent(e.pick_conflict_location())
+    e.add_agents_to_conflict_zones(new_refs)
 
     e.refresh_conflict_weights()
     t_data = t

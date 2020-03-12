@@ -39,12 +39,6 @@ if __name__ == "__main__":
     end_time = 820
     last_physical_day = 820
 
-  RetroFitting = False
-  if len(sys.argv)>2:
-    if "-r" in sys.argv[2]:
-      RetroFitting = True
-      end_time *= 10
-
   e = flee.Ecosystem()
 
   #print("Conflict weight:",flee.SimulationSettings.SimulationSettings.ConflictWeight)
@@ -344,14 +338,7 @@ if __name__ == "__main__":
   for t in range(0,end_time):
 
     e.refresh_conflict_weights()
-
-    if RetroFitting==False:
-      t_data = t
-    else:
-      t_data = int(t_retrofitted)
-      if t_data > end_time / 10:
-        break
-
+    t_data = t
 
     # Determine number of new refugees to insert into the system.
     new_refs = d.get_daily_difference(t, FullInterpolation=True) - refugee_debt
@@ -462,8 +449,7 @@ if __name__ == "__main__":
       e.add_conflict_zone("Sibut")
 
     #Insert refugee agents
-    for i in range(0, new_refs):
-      e.addAgent(e.pick_conflict_location())
+    e.add_agents_to_conflict_zones(new_refs)
 
     #Propagate the model by one time step.
     e.evolve()

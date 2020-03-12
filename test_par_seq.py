@@ -1,4 +1,4 @@
-from flee import pflee
+from flee import flee
 from datamanager import handle_refugee_data
 from datamanager import DataTable #DataTable.subtract_dates()
 from flee import InputGeography
@@ -36,7 +36,7 @@ if __name__ == "__main__":
   end_time = args.simulationperiod
   last_physical_day = args.simulationperiod
 
-  e = pflee.Ecosystem()
+  e = flee.Ecosystem()
 
   if args.parallelmode is "advanced" or "adv-lowlat":
     e.parallel_mode = "loc-par"

@@ -28,7 +28,7 @@ if __name__ == "__main__":
     else:
       end_time = 100
       last_physical_day = 100
-      duration = flee.SimulationSettings.SimulationSettings.ReadFromCSV(sys.argv[1])
+      duration = flee.SimulationSettings.ReadFromCSV(sys.argv[1])
       if duration>0:
         end_time = duration
         last_physical_day = end_time
@@ -36,6 +36,17 @@ if __name__ == "__main__":
   e = flee.Ecosystem()
 
   ig = InputGeography.InputGeography()
+
+  flee.SimulationSettings.FlareConflictInputFile = "test_data/test_input_csv/flare-out.csv"
+  ig.ReadFlareConflictInputCSV(flee.SimulationSettings.FlareConflictInputFile)
+
+  print(ig.conflicts)
+
+  assert ig.conflicts["C"][49] == 0
+  assert ig.conflicts["C"][50] == 1
+
+  assert ig.conflicts["A"][0] == 1
+  assert ig.conflicts["C2"][94] == 0
 
   ig.ReadLocationsFromCSV("test_data/test_input_csv/locations.csv")
 
@@ -82,8 +93,7 @@ if __name__ == "__main__":
       refugee_debt = 0
 
     #Insert refugee agents
-    for i in range(0, new_refs):
-      e.addAgent(e.pick_conflict_location())
+    e.add_agents_to_conflict_zones(new_refs)
 
     e.refresh_conflict_weights()
     t_data = t

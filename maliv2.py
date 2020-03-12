@@ -260,8 +260,7 @@ if __name__ == "__main__":
 
 
     # Here we use the random choice to make a weighted choice between the source locations.
-    for i in range(0, new_refs):
-      e.addAgent(e.pick_conflict_location())
+    e.add_agents_to_conflict_zones(new_refs)
 
     e.evolve()
 

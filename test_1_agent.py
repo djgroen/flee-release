@@ -12,7 +12,7 @@ if __name__ == "__main__":
 
   flee.SimulationSettings.MinMoveSpeed=5000.0
   flee.SimulationSettings.MaxMoveSpeed=5000.0
-  flee.SimulationSettings.MaxWalkSpeed=5000.0
+  flee.SimulationSettings.MaxWalkSpeed=42.0
 
   end_time = 10
   e = flee.Ecosystem()
@@ -23,28 +23,28 @@ if __name__ == "__main__":
   l3 = e.addLocation("C", movechance=0.0)
   l4 = e.addLocation("D", movechance=0.0)
 
-  e.linkUp("A","B","834.0")
-  e.linkUp("A","C","1368.0")
-  e.linkUp("A","D","536.0")
+  e.linkUp("A","B","100.0")
+  e.linkUp("A","C","100.0")
+  e.linkUp("A","D","100.0")
 
-  d = handle_refugee_data.RefugeeTable(csvformat="generic", data_directory="test_data", start_date="2010-01-01", data_layout="data_layout.csv")
+  new_refs = 1
+
+  # Insert refugee agents
+  for i in range(0, new_refs):
+    e.addAgent(location=l1)
 
   for t in range(0,end_time):
-    new_refs = d.get_new_refugees(t)
-
-    # Insert refugee agents
-    for i in range(0, new_refs):
-      e.addAgent(location=l1)
 
     # Propagate the model by one time step.
     e.evolve()
+
+    print("Our single agent is at", e.agents[0].location.name)
 
     print(t, l1.numAgents+l2.numAgents+l3.numAgents+l4.numAgents, l1.numAgents, l2.numAgents, l3.numAgents, l4.numAgents)
 
 
   assert t==9
-  assert l1.numAgents+l2.numAgents+l3.numAgents+l4.numAgents==635 # This includes refugee counts from Fassala as well
-  #79 746 24601 14784 38188
+  assert l1.numAgents+l2.numAgents+l3.numAgents+l4.numAgents==1 
 
   print("Test successful!")
 

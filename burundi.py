@@ -210,8 +210,7 @@ if __name__ == "__main__":
       refugee_debt = 0
 
     # Here we use the random choice to make a weighted choice between the source locations.
-    for i in range(0, new_refs):
-      e.addAgent(e.pick_conflict_location())
+    e.add_agents_to_conflict_zones(new_refs)
 
     #Propagate the model by one time step.
     e.evolve()
