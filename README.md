@@ -1,4 +1,4 @@
-# NOTE: This version is now obsolete. Please refer to https://www.github.com/djgroen/flee for the latest releases,
+# NOTE: This version is now obsolete. Please refer to https://www.github.com/djgroen/flee or https://flee.readthedocs.io for the latest releases,
 
 
 ## Flee
