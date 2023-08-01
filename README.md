@@ -1,4 +1,7 @@
-# Flee
+# NOTE: This version is now obsolete. Please refer to https://www.github.com/djgroen/flee for the latest releases,
+
+
+## Flee
 
 Flee is an agent-based modelling toolkit which is purpose-built for simulating the movement of individuals across geographical locations. Flee is currently used primarily for modelling the movements of refugees and internally displaces persons (IDPs).
 
